@@ -14,9 +14,9 @@ class Axes(plt.PlotCanvas):
         self.xlabel = ""
         self.ylabel = ""
     
-    def plot(self,x,y,color="k",legend=""):
+    def plot(self,x,y,color="k",legend="", **kwargs):
         data = zip(x,y)
-        self.lines.append(plt.PolyLine(data, legend=legend, colour=color))
+        self.lines.append(plt.PolyLine(data, legend=legend, colour=color, **kwargs))
         
     def show(self):
         self.Draw(plt.PlotGraphics(self.lines, self.title, self.xlabel, self.ylabel))
