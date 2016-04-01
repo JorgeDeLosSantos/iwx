@@ -1,0 +1,9 @@
+# -*- coding: utf-8 -*-
+
+
+# Colors
+FRAME_BGCOLOR = "#FEFEFE"
+PANEL_BGCOLOR = "#F0F0F0"
+
+FIGURE_BGCOLOR = "#DADADA"
+AXES_BGCOLOR = "#FFFFFF"
