@@ -196,9 +196,15 @@ class DataGrid(grid.Grid):
         self.DeleteCols(cols[0],len(cols))
         
     def add_row(self,event):
+        """
+        Append one row
+        """
         self.AppendRows(1)
         
     def add_col(self,event):
+        """
+        Append one column
+        """
         self.AppendCols(1)
         
     def random_fill(self):

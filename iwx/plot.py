@@ -8,6 +8,7 @@ import wx.lib.embeddedimage as im
 from _cfg import *
 from utils import *
 
+
 class Axes(plt.PlotCanvas):
     """
     Axes is a class inherited from `wx.lib.plot.PlotCanvas`
@@ -23,6 +24,7 @@ class Axes(plt.PlotCanvas):
         plt.PlotCanvas.__init__(self,parent,**kwargs)
         self.SetBackgroundColour(AXES_BGCOLOR)
         self.lines = []
+        self.bars = []
         self.title = ""
         self.xlabel = ""
         self.ylabel = ""
@@ -35,11 +37,23 @@ class Axes(plt.PlotCanvas):
         data = zip(x,y)
         self.lines.append(plt.PolyLine(data, legend=legend, colour=color, **kwargs))
         
+    def bar(self,x,data,**kwargs):
+        for k,dt in enumerate(data):
+            cdata = zip([x[k],x[k]],[0,dt])
+            self.bars.append(plt.PolyLine(cdata, colour='#0000FF', width=20))
+            
+        
     def draw(self):
         """
         Draw all lines in the current axes
         """
-        self.Draw(plt.PlotGraphics(self.lines, self.title, self.xlabel, self.ylabel))
+        if self.lines:
+            self.Draw(plt.PlotGraphics(self.lines, self.title, self.xlabel, self.ylabel))
+        elif self.bars:
+            self.Draw(plt.PlotGraphics(self.bars, self.title, self.xlabel, self.ylabel))
+        else:
+            pass
+            
         
     def set_xlabel(self,label):
         """
@@ -145,7 +159,20 @@ class Figure(wx.Frame):
         self.Show()
 
 
+
+def plot(x,y,color="k",legend="", show=True, **kwargs):
+    fig = Figure() # Create a Figure class
+    ax = fig.add_axes()
+    ax.plot(x,y, color=color, legend=legend, **kwargs)
+    if show:
+        fig.show()
+    else:
+        return fig, ax
+
         
 if __name__=='__main__':
+    x = np.linspace(0,5)
+    y = np.cos(x)
     app = wx.App()
+    plot(x,y)
     app.MainLoop()

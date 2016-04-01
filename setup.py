@@ -8,7 +8,6 @@ setup(
     author='Pedro Jorge De Los Santos',
     author_email='delossantosmfq@gmail.com',
     license = "MIT",
-    package_data = {'iwx':[r'img/*.png']},
     keywords=["wxPython","GUI"],
     install_requires=["wxpython"],
     url='https://github.com/JorgeDeLosSantos/iwx',
