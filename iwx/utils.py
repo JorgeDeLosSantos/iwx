@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
+
 def isempty(iterable):
     if not iterable:
         return True
@@ -16,6 +17,8 @@ def rgb2hex(r,g,b):
     if len(B)==1: B = 2*B
     HEX = "#"+R+G+B
     return HEX
+    
+
         
 if __name__=='__main__':
     pass

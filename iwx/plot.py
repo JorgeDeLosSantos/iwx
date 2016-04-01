@@ -2,8 +2,11 @@
 import wx
 import wx.lib.plot as plt
 import numpy as np
+import os
+import wx.lib.embeddedimage as im
 
 from _cfg import *
+from utils import *
 
 class Axes(plt.PlotCanvas):
     """
@@ -76,23 +79,41 @@ class Axes(plt.PlotCanvas):
         
 
 
-
 class Figure(wx.Frame):
+    """
+    Figure class, `wx.Frame` based.
+    
+    Parameters
+    ----------
+    
+    parent : wxPython container
+        Parent object (None default)
+        
+    title  : str
+        Title for Figure (wxFigure default)
+    
+    """
     def __init__(self,parent=None,title="wxFigure",*args,**kwargs):
         wx.Frame.__init__(self,parent=parent, id=wx.ID_ANY, title=title,
                           size=(500,400),*args,**kwargs)
+        
+        # Icon
+        self.SetIcon(fig_icon.GetIcon())
         
         # Sizer
         self.sz = wx.BoxSizer(wx.VERTICAL)
         
         # Axes
-        self.axes = []
+        self.axes = [] # List of axes
         
         # Color property
         self.SetBGColor(FIGURE_BGCOLOR)
         self.Centre(True)
         
     def add_axes(self):
+        """
+        Add an axes (currently not multiple axes support)
+        """
         ax = Axes(self)
         self.axes.append(ax)
         self.sz.Add(ax, 1, wx.EXPAND|wx.ALL, 10)
@@ -100,12 +121,22 @@ class Figure(wx.Frame):
         return ax
         
     def SetBGColor(self, color):
+        """
+        Set background color
+        """
         self.SetBackgroundColour(color)
         
     def GetBGColor(self):
+        """
+        Get background color
+        """
         return self.GetBackgroundColour()
         
     def show(self):
+        """
+        Draw all axes contained in the Figure and 
+        call the Show method inherited from `wx.Frame`
+        """
         for ax in self.axes:
             try:
                 ax.draw()
@@ -116,18 +147,5 @@ class Figure(wx.Frame):
 
         
 if __name__=='__main__':
-    x = np.linspace(0,5,10)
-    y = np.random.random(10)
-    
     app = wx.App()
-    fig = Figure()
-    ax = fig.add_axes()
-    ax.plot(x,y, color="#ff00ff", legend="ACC")
-    ax.plot(x,x*y, color="#ff5566", legend="DB")
-    ax.set_xlabel("X")
-    ax.set_ylabel("y")
-    ax.set_title("ABC")
-    ax.grid()
-    ax.legend()
-    fig.show()
     app.MainLoop()

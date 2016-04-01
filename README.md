@@ -1,8 +1,8 @@
 ## iwx
 
-**iwx** is a collection of enhanced controls for wx
+**iwx** is a collection of enhanced controls for wxPython
 
-### Demo
+### Mini-Demos
 
 #### Plot module
 
@@ -40,6 +40,20 @@ if __name__ == '__main__':
     app.MainLoop()
 ```
 
-and obtain:
+and obtains:
 
 ![](examples/images/plot.PNG)
+
+### Installation
+
+Using git to clone:
+
+```python
+git clone https://github.com/JorgeDeLosSantos/iwx.git
+```
+
+and run `setup.py`:
+
+```python
+pip setup.py install
+```
