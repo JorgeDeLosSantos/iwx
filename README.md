@@ -42,4 +42,4 @@ if __name__ == '__main__':
 
 and obtain:
 
-![](examples/images/plot.png)
+![](examples/images/plot.PNG)
