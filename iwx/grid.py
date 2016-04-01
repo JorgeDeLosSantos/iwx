@@ -10,6 +10,10 @@ from utils import *
 
 
 class DataGrid(grid.Grid):
+    """
+    Create a wx.grid.Grid based grid, with other features, 
+    as add and delete rows and columns interactively.
+    """
     def __init__(self,parent,gridsize,**kwargs):
         grid.Grid.__init__(self,parent=parent,id=-1,**kwargs)
         rows = int(gridsize[0])

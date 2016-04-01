@@ -1,5 +1,5 @@
 @echo off
-echo Installing wxava
+echo Installing iwx
 python setup.py install
 pause
 exit
