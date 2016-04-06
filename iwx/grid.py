@@ -2,8 +2,17 @@
 import wx
 import wx.grid as grid
 import numpy as np
-
 from utils import *
+
+# Using openpyxl
+openpyxl_warning = """
+Please install openpyxl to use the "Export to Excel" feature.
+"""
+try:
+    import openpyxl
+except ImportError:
+    print openpyxl_error
+    pass
 
 
 class DataGrid(grid.Grid):
@@ -234,9 +243,21 @@ class DataGrid(grid.Grid):
         scols = self.GetSelectedCols()
         srows = self.GetSelectedRows()
         for ii,row in enumerate(srows):
-            for jj,col in enumerate(scols):
+            for jj,col in enumerate(scols): 
                 val = str(np.random.rand())
                 self.SetCellValue(row, col, val)
+    
+    def toExcel(self):
+        """
+        Export grid data to Excel sheet.
+        """
+        pass
+        
+    def toHTMLTable(self):
+        """
+        Export grid data to HTML table format.
+        """
+        pass
         
 
         
