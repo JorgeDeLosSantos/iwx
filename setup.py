@@ -9,7 +9,7 @@ setup(
     author_email='delossantosmfq@gmail.com',
     license = "MIT",
     keywords=["wxPython","GUI"],
-    install_requires=[""],
+    install_requires=["tinycss"],
     url='https://github.com/JorgeDeLosSantos/iwx',
     packages=['iwx'],
     package_data={'iwx':['img/*']}

@@ -61,13 +61,10 @@ def _SetFontFaceName(ctrl,family):
         
 def _SetBackgroundColor(ctrl,color):
     ctrl.SetBackgroundColour(color)
-    
-
 
 def test():
     txt = "#self{background-color: #fafafa; font-size: 10px;}"
     print parse_stylesheet(txt)
-
 
 if __name__=='__main__':
     import wx
