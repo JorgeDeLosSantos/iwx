@@ -11,7 +11,7 @@ def test():
     sz = wx.BoxSizer(wx.VERTICAL)
     sz.Add(bt, 1, wx.EXPAND|wx.ALL, 10)
     fr.SetSizer(sz)
-    css.SetControlStyleSheet(bt, "#self{font-size: 16px; background-color: #ff00ff;}")
+    css.SetControlStyleSheet(bt, "#self{font-size: 16px; background-color: #00ffff;}")
     css.SetControlStyleSheet(fr, "#self{background-color: #fafafa;}")
     fr.Show()
 

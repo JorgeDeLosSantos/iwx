@@ -17,6 +17,9 @@ def get_font_size(prop):
     
     
 def get_font_family(prop):
+    """
+    Font family property
+    """
     return prop
     
 
@@ -38,7 +41,16 @@ def parse_stylesheet(src):
 
 def SetControlStyleSheet(wxCtrl, style):
     """
-    A wxPython control expected
+    Apply CSS style to wxCtrl object
+    
+    Parameters
+    ----------
+    
+    wxCtrl:  wxPython control
+        A wxPython control
+    
+    style: str
+        A string with CSS style, i.e. "#self{background-color: #fafafa;}"
     """
     parsed = parse_stylesheet(style)
     properties = {"background-color": _SetBackgroundColor,
@@ -50,17 +62,48 @@ def SetControlStyleSheet(wxCtrl, style):
 
 
 def _SetFontSize(ctrl,size):
+    """
+    Set the FontSize for a control
+    """
     cfont = ctrl.GetFont()
     cfont.SetPointSize(size)
     ctrl.SetFont(cfont)
         
-def _SetFontFaceName(ctrl,family):
+def _SetFontFaceName(ctrl,name):
+    """
+    Set the font name
+    
+    Parameters
+    ----------
+    
+    ctrl: wxPython control
+        A wxPython control
+        
+    name: str
+        A font name, i.e. "Arial", "Courier New"
+        
+    """
     cfont = ctrl.GetFont()
-    cfont.SetFaceName(family)
+    cfont.SetFaceName(name)
     ctrl.SetFont(cfont)
+
         
 def _SetBackgroundColor(ctrl,color):
+    """
+    Set the background color
+    
+    Parameters
+    ----------
+    
+    ctrl : wxPython control
+        A wxPython control
+    
+    color : str, wx.Color
+        A string or wx.Color class
+    """
     ctrl.SetBackgroundColour(color)
+
+
 
 def test():
     txt = "#self{background-color: #fafafa; font-size: 10px;}"
