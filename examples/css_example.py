@@ -6,13 +6,29 @@ import wx
 import iwx.css as css
 
 def test():
-    fr = wx.Frame(None, -1, "Test Frame", size=(300,200))
-    bt = wx.Button(fr, -1, "Button")
+    fr = wx.Frame(None, -1, "This")
     sz = wx.BoxSizer(wx.VERTICAL)
-    sz.Add(bt, 1, wx.EXPAND|wx.ALL, 10)
+    bt = wx.Button(fr, -1, "Button")
+    lb = wx.StaticText(fr, -1, "Label")
+    txt = wx.TextCtrl(fr, -1, "Editable")
+    css.SetControlStyleSheet(fr, "#self{background-color: #585858;}")
+    
+    # Add controls
+    sz.Add(bt, 1, wx.EXPAND|wx.ALL, 2)
+    sz.Add(lb, 1, wx.EXPAND|wx.ALL, 2)
+    sz.Add(txt, 1, wx.EXPAND|wx.ALL, 2)
+    
+    # Styles
+    btstyle = "#self{color: #e0e0e0;}"
+    lbstyle = "#self{background-color: #052205; color: #fafa77;}"
+    txtstyle = "#self{font-size: 20px;}"
+    
+    css.SetControlStyleSheet(bt, btstyle)
+    css.SetControlStyleSheet(lb, lbstyle)
+    css.SetControlStyleSheet(txt, txtstyle)
+    
     fr.SetSizer(sz)
-    css.SetControlStyleSheet(bt, "#self{font-size: 16px; background-color: #00ffff;}")
-    css.SetControlStyleSheet(fr, "#self{background-color: #fafafa;}")
+    fr.Centre()
     fr.Show()
 
 if __name__ == '__main__':

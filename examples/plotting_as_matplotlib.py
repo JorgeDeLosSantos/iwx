@@ -9,7 +9,7 @@ from iwx.plot import Figure, Axes
 
 
 def test():
-    n = 100 # Number of points
+    n = 100 # Number of poin ts
     x = np.linspace(0,3*np.pi,n)
     y1 = np.cos(x) + np.random.random(n)
     y2 = np.sin(x) + np.random.random(n)
@@ -23,23 +23,24 @@ def test():
     ax.set_title("Graphics")
     ax.grid()
     ax.legend()
+    ax.save('this.png')
     fig.show()
     
-def test_bar():
-    x = range(10)
-    data = np.random.random(10)
+#~ def test_bar():
+    #~ x = range(10)
+    #~ data = np.random.random(10)
     
-    fig = Figure()
-    ax = fig.add_axes()
-    ax.bar(x, data)
-    ax.set_xlabel("X")
-    ax.set_ylabel("y")
-    ax.set_title("Graphics")
-    fig.show()
+    #~ fig = Figure()
+    #~ ax = fig.add_axes()
+    #~ ax.bar(x, data)
+    #~ ax.set_xlabel("X")
+    #~ ax.set_ylabel("y")
+    #~ ax.set_title("Graphics")
+    #~ fig.show()
     
 
 if __name__ == '__main__':
     app = wx.App()
     test()
-    test_bar()
+    #~ test_bar()
     app.MainLoop()
