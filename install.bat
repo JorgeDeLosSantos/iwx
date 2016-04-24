@@ -1,10 +1,10 @@
 @echo off
 echo Building iwx, wxPython required.
-REM set "distpath=dist"
-REM set "nanchiversion=0.1.0"
-REM set "sdisttype=zip"
+set "packname=iwx"
+set "distpath=dist"
+set "packversion=0.1.0"
+set "sdisttype=zip"
 python setup.py sdist
-REM cd %distpath%
-REM pip install nanchi-%nanchiversion%.%sdisttype%
+pip install -U %cd%/%distpath%/%packname%-%packversion%.%sdisttype%
 pause
 exit
