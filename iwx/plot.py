@@ -8,13 +8,69 @@ import wx.lib.embeddedimage as im
 from _cfg import *
 from utils import *
 
+"""
+Plotting module for iwx
+-----------------------
+
+Using wxPython Pyplot to plot like Matplotlib
+
+**MiniDemo using "plot" function**
+
+::
+
+    import wx
+    import numpy as np
+    from iwx import plot
+    
+    app = wx.App()
+    x = np.linspace(0,5)
+    y = np.cos(x)
+    fig, ax = plot(x,y,width=5,show=False)
+    fig.show()
+    app.MainLoop()
+    
+Or just: ::
+
+    import wx
+    import numpy as np
+    from iwx import plot
+    
+    app = wx.App()
+    x = np.linspace(0,5)
+    y = np.cos(x)
+    plot(x, y)
+    app.MainLoop()
+    
+
+**MiniDemo using Figure & Axes classes**
+    
+:: 
+
+    import wx
+    import numpy as np
+    from iwx.plot import Figure, Axes
+
+    n = 100 # Number of points
+    x = np.linspace(0,3*np.pi,n)
+    y1 = np.cos(x) + np.random.random(n)
+    y2 = np.sin(x) + np.random.random(n)
+    
+    fig = Figure()
+    ax = fig.add_axes()
+    ax.plot(x,y1, color="#00ffff", legend="Y1", width=2)
+    ax.plot(x,y2, color="#ff00ff", legend="Y2", width=3)
+    ax.set_xlabel("X")
+    ax.set_ylabel("y")
+    ax.set_title("Graphics")
+    ax.grid()
+    ax.legend()
+    fig.show()
+"""
+
 
 class Axes(plt.PlotCanvas):
     """
     Axes is a class inherited from `wx.lib.plot.PlotCanvas`
-    
-    Parameters
-    ----------
     
     parent : `wx.Frame`, `wx.Panel`
         Parent object
@@ -24,7 +80,7 @@ class Axes(plt.PlotCanvas):
         plt.PlotCanvas.__init__(self,parent,**kwargs)
         self.SetBackgroundColour(AXES_BGCOLOR)
         self.lines = []
-        self.bars = []
+        #~ self.bars = []
         self.title = ""
         self.xlabel = ""
         self.ylabel = ""
@@ -33,19 +89,28 @@ class Axes(plt.PlotCanvas):
         """
         Plot a line from x and y coordinates, with legend and color 
         specified.
+        
+        x : ``numpy.ndarray``, ``list``, ``tuple``
+            1-D Array
+        y : ``numpy.ndarray``, ``list``, ``tuple``
+            1-D Array
+        color: ``str``, ``wx.Color``
+            Line color
+        legend : ``str``
+            Label/legend for line
+            
         """
         data = zip(x,y)
         self.lines.append(plt.PolyLine(data, legend=legend, colour=color, **kwargs))
         
-    def bar(self,x,data,**kwargs):
-        for k,dt in enumerate(data):
-            cdata = zip([x[k],x[k]],[0,dt])
-            self.bars.append(plt.PolyLine(cdata, colour='#0000FF', width=20))
+    #~ def bar(self,x,data,**kwargs):
+        #~ for k,dt in enumerate(data):
+            #~ cdata = zip([x[k],x[k]],[0,dt])
+            #~ self.bars.append(plt.PolyLine(cdata, colour='#0000FF', width=20))
             
-        
     def draw(self):
         """
-        Draw all lines in the current axes
+        Draw all lines in this axes
         """
         if self.lines:
             self.Draw(plt.PlotGraphics(self.lines, self.title, self.xlabel, self.ylabel))
@@ -75,7 +140,7 @@ class Axes(plt.PlotCanvas):
         
     def legend(self,status=True):
         """
-        Show or hide legend line.
+        Show or hide legend
         """
         self.SetEnableLegend(status)
         
@@ -89,21 +154,17 @@ class Axes(plt.PlotCanvas):
         """
         Save current plot to filename
         """
-        return self.SaveFile(filename)
+        self.SaveFile(filename)
         
 
 
 class Figure(wx.Frame):
     """
-    Figure class, `wx.Frame` based.
-    
-    Parameters
-    ----------
+    Figure class, ``wx.Frame`` based.
     
     parent : wxPython container
         Parent object (None default)
-        
-    title  : str
+    title  : ``str``
         Title for Figure (wxFigure default)
     
     """
@@ -114,7 +175,7 @@ class Figure(wx.Frame):
         # Icon
         self.SetIcon(fig_icon.GetIcon())
         
-        # Sizer
+        # Default Sizer
         self.sz = wx.BoxSizer(wx.VERTICAL)
         
         # Axes
@@ -126,7 +187,7 @@ class Figure(wx.Frame):
         
     def add_axes(self):
         """
-        Add an axes (currently not multiple axes support)
+        Add an axes (currently not multiple axes supported)
         """
         ax = Axes(self)
         self.axes.append(ax)
@@ -174,5 +235,6 @@ if __name__=='__main__':
     x = np.linspace(0,5)
     y = np.cos(x)
     app = wx.App()
-    plot(x,y)
+    fig, ax = plot(x,y,width=5,show=False)
+    fig.show()
     app.MainLoop()

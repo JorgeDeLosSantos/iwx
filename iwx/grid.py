@@ -24,9 +24,6 @@ class DataGrid(grid.Grid):
     (on cell edit) isn't a number, then the value changes to NaN 
     (NumPy constant).
     
-    Parameters
-    ----------
-    
     parent   : wxPython container
         Parent object
     gridsize : `tuple`, `list`
@@ -39,6 +36,7 @@ class DataGrid(grid.Grid):
         dp = DataGrid(fr,(10,2))
         fr.Show()
         app.MainLoop()
+    
     """
     def __init__(self,parent,gridsize,**kwargs):
         grid.Grid.__init__(self,parent=parent,id=-1,**kwargs)
@@ -98,7 +96,7 @@ class DataGrid(grid.Grid):
                     try:
                         X[i][j] = float(cval)
                     except:
-                        # Revisar valores devueltos
+                        # ?
                         X[i][j] = np.nan
                 else:
                     X[i][j] = np.nan
@@ -121,6 +119,9 @@ class DataGrid(grid.Grid):
                 
         
     def GetSelectedCols(self):
+        """
+        Return a list with selected columns index
+        """
         scols = []
         top_left = self.GetSelectionBlockTopLeft()
         bottom_right = self.GetSelectionBlockBottomRight()
@@ -131,6 +132,9 @@ class DataGrid(grid.Grid):
         return scols
         
     def GetSelectedRows(self):
+        """
+        Return a list with selected rows index
+        """
         srows = []
         top_left = self.GetSelectionBlockTopLeft()
         bottom_right = self.GetSelectionBlockBottomRight()
@@ -168,6 +172,18 @@ class DataGrid(grid.Grid):
         
             
     def OnRightClick(self,event):
+        """
+        Show a pop-up-menu when right click is pressed over 
+        the DataGrid, with following options:
+        
+        * Delete rows
+        * Delete columns
+        * Add row...
+        * Add column...
+        * Randomly fill columns
+        * Randomly fill cells
+        
+        """
         pum = wx.Menu() # Pop-up menu
         delrows = wx.MenuItem(pum, -1, "Delete rows")
         pum.AppendItem(delrows)
@@ -197,10 +213,16 @@ class DataGrid(grid.Grid):
         pum.Destroy() #Destroy the pop-up menu
 
     def del_rows(self,event):
+        """
+        Delete selected rows
+        """
         rows = self.GetSelectedRows()
         self.DeleteRows(rows[0],len(rows))
         
     def del_cols(self,event):
+        """
+        Delete selected columns
+        """
         cols = self.GetSelectedCols()
         self.DeleteCols(cols[0],len(cols))
         
@@ -249,13 +271,13 @@ class DataGrid(grid.Grid):
     
     def toExcel(self):
         """
-        Export grid data to Excel sheet.
+        Export grid data to Excel sheet. (not implemented yet)
         """
         pass
         
     def toHTMLTable(self):
         """
-        Export grid data to HTML table format.
+        Export grid data to HTML table format.  (not implemented yet) 
         """
         pass
         

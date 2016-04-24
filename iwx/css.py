@@ -2,9 +2,57 @@
 import tinycss as tcss
 
 
+def SetControlStyleSheet(wxCtrl, style):
+    """
+    Apply CSS style to wxCtrl object
+    
+    
+    wxCtrl:  wxPython control
+        A wxPython control
+    
+    style: ``str``
+        A string with CSS style, like: ``#self{property: value}``, where 
+        ``#self`` can be any string, because currently specific selectors 
+        are not supported.
+    """
+    parsed = parse_stylesheet(style)
+    properties = {"background-color": _SetBackgroundColor,
+                  "font-size": _SetFontSize,
+                  "font-family": _SetFontFaceName,
+                  "color": _SetForegroundColor}
+    for prop,val in parsed.items():
+        if prop in properties:
+            properties[prop](wxCtrl,val)
+
+
+def parse_stylesheet(src):
+    """
+    Parse a stylesheet using tinycss
+    
+    src : ``str``
+        A string like: ``"#self{property: value}"``
+    """
+    propfuns = {"background-color":get_background,
+                "font-size":get_font_size,
+                "font-family": get_font_family,
+                "color": get_foreground}
+                
+    props = {}
+    css = tcss.CSSPage3Parser()
+    sheet = css.parse_stylesheet(src)
+    for rule in sheet.rules:
+        for decl in rule.declarations:
+            if decl.name in propfuns:
+                props[decl.name] = propfuns[decl.name](decl.value[0].value) # 
+                
+    return props
+            
+
+# ========================= get_property functions  ==================
+
 def get_background(prop):
     """
-    BackgroundColor property
+    Background Color property
     """
     return prop
     
@@ -22,44 +70,15 @@ def get_font_family(prop):
     """
     return prop
     
-
-def parse_stylesheet(src):
-    propfuns = {"background-color":get_background,
-                "font-size":get_font_size,
-                "font-family": get_font_family}
-                
-    props = {}
-    css = tcss.CSSPage3Parser()
-    sheet = css.parse_stylesheet(src)
-    for rule in sheet.rules:
-        for decl in rule.declarations:
-            if decl.name in propfuns:
-                props[decl.name] = propfuns[decl.name](decl.value[0].value) # 
-                
-    return props
-    
-
-def SetControlStyleSheet(wxCtrl, style):
+def get_foreground(prop):
     """
-    Apply CSS style to wxCtrl object
-    
-    Parameters
-    ----------
-    
-    wxCtrl:  wxPython control
-        A wxPython control
-    
-    style: str
-        A string with CSS style, i.e. "#self{background-color: #fafafa;}"
+    Foreground Color property
     """
-    parsed = parse_stylesheet(style)
-    properties = {"background-color": _SetBackgroundColor,
-                  "font-size": _SetFontSize,
-                  "font-family": _SetFontFaceName}
-    for prop,val in parsed.items():
-        if prop in properties:
-            properties[prop](wxCtrl,val)
+    return prop
+    
 
+
+# ===================== _Set* functions ======================
 
 def _SetFontSize(ctrl,size):
     """
@@ -68,7 +87,8 @@ def _SetFontSize(ctrl,size):
     cfont = ctrl.GetFont()
     cfont.SetPointSize(size)
     ctrl.SetFont(cfont)
-        
+
+
 def _SetFontFaceName(ctrl,name):
     """
     Set the font name
@@ -102,18 +122,57 @@ def _SetBackgroundColor(ctrl,color):
         A string or wx.Color class
     """
     ctrl.SetBackgroundColour(color)
+    
 
+def _SetForegroundColor(ctrl,color):
+    """
+    Set the background color
+    
+    Parameters
+    ----------
+    
+    ctrl : wxPython control
+        A wxPython control
+    
+    color : str, wx.Color
+        A string or wx.Color class
+    """
+    ctrl.SetForegroundColour(color)
+
+
+# ===============================================================
 
 
 def test():
-    txt = "#self{background-color: #fafafa; font-size: 10px;}"
-    print parse_stylesheet(txt)
-
-if __name__=='__main__':
     import wx
     app = wx.App()
-    fr = wx.Frame(None, -1, u"This")
-    SetControlStyleSheet(fr, "#self{background-color: #ff00ff}")
+    fr = wx.Frame(None, -1, "This")
+    sz = wx.BoxSizer(wx.VERTICAL)
+    bt = wx.Button(fr, -1, "Button")
+    lb = wx.StaticText(fr, -1, "Label")
+    txt = wx.TextCtrl(fr, -1, "Editable")
+    SetControlStyleSheet(fr, "#self{background-color: #585858;}")
+    
+    # Add controls
+    sz.Add(bt, 1, wx.EXPAND|wx.ALL, 2)
+    sz.Add(lb, 1, wx.EXPAND|wx.ALL, 2)
+    sz.Add(txt, 1, wx.EXPAND|wx.ALL, 2)
+    
+    # Styles
+    btstyle = "#self{color: #e0e0e0;}"
+    lbstyle = "#self{background-color: #052205; color: #fafa77;}"
+    txtstyle = "#self{font-size: 20px;}"
+    
+    SetControlStyleSheet(bt, btstyle)
+    SetControlStyleSheet(lb, lbstyle)
+    SetControlStyleSheet(txt, txtstyle)
+    
+    fr.SetSizer(sz)
+    fr.Centre()
     fr.Show()
     app.MainLoop()
+
+
+if __name__=='__main__':
+    test()
     
