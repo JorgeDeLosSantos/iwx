@@ -60,3 +60,11 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+# UnTest pack
+_untest_
+
+
+# Install bat (for local installation)
+install.bat
+
