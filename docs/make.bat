@@ -78,6 +78,8 @@ if "%1" == "html" (
 	if errorlevel 1 exit /b 1
 	echo.
 	echo.Build finished. The HTML pages are in %BUILDDIR%/html.
+    REM Open index.html file
+    %cd%/%BUILDDIR%/html/index.html
 	goto end
 )
 
