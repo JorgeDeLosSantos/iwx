@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import tinycss as tcss
+from collections import namedtuple
 
 
 def SetControlStyleSheet(wxCtrl, style):
@@ -140,7 +141,38 @@ def _SetForegroundColor(ctrl,color):
     ctrl.SetForegroundColour(color)
 
 
-# ===============================================================
+# ========================== Themes ================================
+
+def SetTheme(container, theme):
+    prop = namedtuple('Properties','container_color,control_color')
+    black = prop("#101010","#595959")
+    white = prop("#dadada","#f0f0f0")
+    blue = prop("#7777dd","#aaaaff")
+    
+    if "black" in theme:
+        container.SetBackgroundColour(black.container_color)
+        _recursive_theme(container.GetChildren(), black)
+    elif "blue" in theme:
+        container.SetBackgroundColour(blue.container_color)
+        _recursive_theme(container.GetChildren(), blue)
+    else:
+        container.SetBackgroundColour(white.container_color)
+        _recursive_theme(container.GetChildren(), white)
+
+
+def _recursive_theme(children, props):
+    for child in children:
+        print child.__class__
+        if child.__class__.__name__ in ["Panel","Frame"]:
+            child.SetBackgroundColour(props.container_color)
+            child.Refresh()
+            return self._recursive_theme(child.GetChildren(), properties)
+        else: #Otherwise
+            child.SetBackgroundColour(props.control_color)
+            child.Refresh()
+
+
+# ============================  Tests functions =====================
 
 
 def test():
@@ -173,6 +205,28 @@ def test():
     app.MainLoop()
 
 
+def test_theme():
+    import wx
+    app = wx.App()
+    fr = wx.Frame(None, -1, "This")
+    sz = wx.BoxSizer(wx.VERTICAL)
+    bt = wx.Button(fr, -1, "Button")
+    lb = wx.StaticText(fr, -1, "Label")
+    txt = wx.TextCtrl(fr, -1, "Editable")
+    
+    # Add controls
+    sz.Add(bt, 1, wx.EXPAND|wx.ALL, 2)
+    sz.Add(lb, 1, wx.EXPAND|wx.ALL, 2)
+    sz.Add(txt, 1, wx.EXPAND|wx.ALL, 2)
+    
+    SetTheme(fr, "blue")
+    
+    fr.SetSizer(sz)
+    fr.Centre()
+    fr.Show()
+    app.MainLoop()
+
+
 if __name__=='__main__':
-    test()
+    test_theme()
     

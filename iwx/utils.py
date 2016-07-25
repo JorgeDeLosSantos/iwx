@@ -15,20 +15,33 @@ def isempty(iterable):
     else:
         return False
 
+
 def rgb2hex(r,g,b):
     """
     Convert a RGB vector to hexadecimal values
     """
-    R = hex(r)[2:]
-    if len(R)==1: R = 2*R
-    G = hex(g)[2:]
-    if len(G)==1: G = 2*G
-    B = hex(b)[2:]
-    if len(B)==1: B = 2*B
-    HEX = "#%s%s%"%(R,G,B)
-    return HEX
+    hexfmt = "#%02x%02x%02x"%(r,g,b)
+    return hexfmt
+
+
+def hex2rgb(hexstr):
+    """
+    Convert a hexadecimal color format to RGB array
+    """
+    _str = hexstr.lstrip("#")
+    rgb = [int(_str[k:k+2],16) for k in range(0,len(_str),2)]
+    return rgb
     
+
+def testing_utils():
+    assert(rgb2hex(0,0,0)=="#000000")
+    assert(rgb2hex(0.0,0.0,255.0)=="#0000ff")
+    assert(isempty('') is True)
+    assert(isempty([1,2,3]) is False)
+    assert(isempty("abc") is False)
+    assert(isempty("") is True)
+        
         
 if __name__=='__main__':
-    pass
+    hex2rgb("#ff00ff")
     
