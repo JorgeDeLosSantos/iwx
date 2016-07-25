@@ -18,29 +18,14 @@ def test():
     ax = fig.add_axes()
     ax.plot(x,y1, color="#00ffff", legend="Y1", width=2)
     ax.plot(x,y2, color="#ff00ff", legend="Y2", width=3)
-    ax.set_xlabel("X")
-    ax.set_ylabel("y")
-    ax.set_title("Graphics")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Amplitude (mm)")
+    ax.set_title("Example")
     ax.grid()
     ax.legend()
-    ax.save('this.png')
     fig.show()
-    
-#~ def test_bar():
-    #~ x = range(10)
-    #~ data = np.random.random(10)
-    
-    #~ fig = Figure()
-    #~ ax = fig.add_axes()
-    #~ ax.bar(x, data)
-    #~ ax.set_xlabel("X")
-    #~ ax.set_ylabel("y")
-    #~ ax.set_title("Graphics")
-    #~ fig.show()
-    
 
 if __name__ == '__main__':
     app = wx.App()
     test()
-    #~ test_bar()
     app.MainLoop()
